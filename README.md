@@ -21,7 +21,7 @@ image:
     RUN pacaur -am rpm-org dpkg
 
     FROM archlinux/base
-    COPY --from=build /build/*.pkg.tar.xz /tmp/
+    COPY --from=build /home/nobody/build/*.pkg.tar.xz /tmp/
     RUN pacman -Sy && pacman -U --noconfirm /tmp/*.pkg.tar.xz
     RUN rpm --version
     RUN dpkg --version

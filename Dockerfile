@@ -12,22 +12,22 @@ RUN chmod +x /usr/local/bin/set_makeopts.sh && /usr/local/bin/set_makeopts.sh
 ONBUILD RUN sudo /usr/local/bin/set_makeopts.sh
 
 # Install Pacaur
-RUN mkdir /build && chown nobody: build
+RUN mkdir -p /home/nobody/build && chown -R nobody: /home/nobody
 
 USER nobody
-ENV HOME=/build
+ENV HOME=/home/nobody
 ENV EDITOR=/bin/true
-WORKDIR /build
+WORKDIR /home/nobody
 
 RUN gpg --recv-keys --keyserver hkp://pgp.mit.edu 1EB2638FF56C0C53
 RUN curl -L https://aur.archlinux.org/cgit/aur.git/snapshot/cower.tar.gz | tar xz && \
-    cd /build/cower && \
+    cd cower && \
     makepkg -si --noconfirm --asdeps && \
-    cd /build && rm -rf cower
+    cd ~ && rm -rf cower
 
 RUN curl -L https://aur.archlinux.org/cgit/aur.git/snapshot/pacaur.tar.gz | tar xz && \
-    cd /build/pacaur && \
+    cd pacaur && \
     makepkg -si --noconfirm --asdeps && \
-    cd /build && rm -rf pacaur
+    cd ~ && rm -rf pacaur
 
-ENV PKGDEST=/build
+ENV PKGDEST=/home/nobody/build
